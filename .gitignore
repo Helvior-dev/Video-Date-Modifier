@@ -1,5 +1,6 @@
 # Virtual Environment
 venv/
+.venv/
 ENV/
 env/
 
@@ -11,6 +12,12 @@ __pycache__/
 # Temporary files
 temp_*
 
+# Local video files
+*.mp4
+*.mov
+*.mkv
+*.avi
+
 # IDE
 .idea/
 .vscode/
@@ -18,3 +25,6 @@ temp_*
 # OS Specific
 .DS_Store
 Thumbs.db
+
+# Local project notes
+PROJECT_STATE.md

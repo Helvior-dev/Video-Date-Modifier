@@ -1,42 +1,73 @@
-# Video Date & Metadata Modifier 🎬📅
+# Video Date Modifier
 
-A fast Python CLI tool to update video creation metadata inside media containers (`.mp4`, `.mov`, `.mkv`, `.avi`) and synchronize OS file system timestamps (including Windows File Creation Time via native WinAPI).
+An interactive Python CLI for changing video container metadata and file timestamps.
 
-## 🚀 Features
-- **Zero Re-encoding Loss**: Uses `FFmpeg` stream copying (`-codec copy`) to modify internal `creation_time` tags without re-encoding video or audio streams.
-- **Native Windows Timestamps**: Updates file creation (`SetFileTime`), modification, and access timestamps in Windows File Explorer.
-- **Batch & Single File Modes**: Process single video files or whole folders at once.
-- **Supported Containers**: `.mp4`, `.mov`, `.mkv`, `.avi`.
-- **Progress Tracking**: Real-time progress bar powered by `tqdm`.
+## Features
 
-## 🛠️ Prerequisites
-- **FFmpeg**: Required for internal container metadata updates. Must be installed and accessible via system `PATH`.
+- Updates the container `creation_time` metadata with FFmpeg stream copying. Audio and video are not re-encoded.
+- Sets file creation, access, and modification timestamps on Windows.
+- Sets access and modification timestamps on other operating systems.
+- Processes one video or supported video files directly inside a folder.
+- Supports setting one date for all files or entering a date for each file.
 
-## 🛠️ Installation & Setup
+## Important
 
-1. **Navigate to project directory**:
-   ```bash
-   cd "Video date modifier"
-   ```
+The program remuxes each video to a temporary file and replaces the original file. It does not make a backup. Back up important videos before running it.
 
-2. **Create & activate virtual environment**:
-   - **Windows (PowerShell)**:
-     ```powershell
-     python -m venv venv
-     .\venv\Scripts\Activate.ps1
-     ```
-   - **Linux / macOS**:
-     ```bash
-     python3 -m venv venv
-     source venv/bin/activate
-     ```
+Dates are entered as `DD/MM/YYYY` and interpreted as local midnight. The container `creation_time` is stored as UTC. Folder mode does not search subfolders. If FFmpeg is unavailable or cannot update a container, file system timestamps are still attempted and the program reports the metadata failure.
 
-3. **Install dependencies**:
-   ```bash
-   pip install -r requirements.txt
-   ```
+## Supported containers
 
-4. **Run**:
-   ```bash
-   python main.py
-   ```
+`mp4`, `mov`, `mkv`, `avi`
+
+## Requirements
+
+- Python 3.8 or newer
+- FFmpeg available on `PATH`
+- Python packages listed in `requirements.txt`
+
+## Setup
+
+Clone the repository and enter its directory:
+
+```bash
+git clone https://github.com/Helvior-dev/Video-Date-Modifier.git
+cd Video-Date-Modifier
+```
+
+Create and activate a virtual environment, then install dependencies:
+
+- Windows PowerShell:
+
+  ```powershell
+  python -m venv venv
+  .\venv\Scripts\Activate.ps1
+  pip install -r requirements.txt
+  ```
+
+- Linux or macOS:
+
+  ```bash
+  python3 -m venv venv
+  source venv/bin/activate
+  pip install -r requirements.txt
+  ```
+
+## Usage
+
+Run the program, enter a video path or folder, and choose a mode:
+
+```bash
+python main.py
+```
+
+1. Set one date for every supported video in the folder.
+2. Enter a date separately for each video.
+
+## Tests
+
+Run offline tests without processing real videos or invoking FFmpeg:
+
+```bash
+python -m unittest discover -s tests -v
+```
